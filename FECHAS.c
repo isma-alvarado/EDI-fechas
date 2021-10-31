@@ -31,44 +31,85 @@ int CapturaFecha(FECHAS *fecha);
 FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar);
 FECHAS restaFecha(FECHAS fecha,int tipo,int cantidadARestar);
 int compararFechas(FECHAS fecha1,FECHAS fecha2);
-void imprimeFecha(FECHAS fecha);
-int MenuOperaciones();
-int MenuSumas();
-int MenuRestas();
+int imprimeFecha(FECHAS fecha);
+int imprimeFecha2(FECHAS fechaNUEVA);
+
+void MenuSumas(int *ASumar,int *tipo);
+void MenuRestas(int dato,int *ARestar,int *tipo);
 
 
 
 int main()
 {
 FECHAS fecha;
+FECHAS NuevaFecha;
+
 int fechaValida;
+int suma,resta,tipo,dato;
+int respuesta;
 
-
-
-
-
-//sumaFecha(fecha,ANNIO,10);
-//imprimeFecha(fecha);
 
 fechaValida=CapturaFecha(&fecha);
 if(fechaValida!=-1)
 {
     printf("QUE OPCION DESEAS REALIZAR:");
-    MenuOperaciones();
+
+
+    printf("\n1.SUMA \n");
+    printf("2.RESTA \n");
+
+    printf("\tQue opcion deseas realizar?: \n");
+    scanf("%d",&respuesta);
+
+    switch(respuesta){
+    case 1:
+            printf("\nELIGISTE SUMA:\n");
+
+            MenuSumas(&suma,&tipo);
+
+             NuevaFecha=sumaFecha(fecha,tipo,suma);
+
+
+
+
+            break;
+
+    case 2:
+            printf("\nELIGISTE RESTA: \n");
+
+            MenuRestas(&tipo,&resta,tipo);
+            NuevaFecha=restaFecha(fecha,tipo,resta);
+            break;
+    default:
+            printf(" \nNo eligiste ninguna opcion  \n");
 
 
 }
 
 
 
+
+
+imprimeFecha(fecha);
+printf("\n");
+imprimeFecha2(NuevaFecha);
+
+}
 
 return 0;
 }
 
+
+
+
+
+
+
+
 int CapturaFecha(FECHAS *fecha)
 {
        int VALIDA=-1;
-        printf("\n FECHAS (DD/MM/AAAA): \n");
+        printf("\n FECHAS (DIA/MES/ANNIO): \n");
 
 
         printf("Dame el dia: \n ");
@@ -124,168 +165,162 @@ int CapturaFecha(FECHAS *fecha)
 
 
 
+
+
+
+
+
+
+
 FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 {
     FECHAS nuevaFecha;
 
-    if(tipo==ANNIO)   // Podriamos agregar validaciones para que no se pase del año 9999 y si se  pasa dejarlo en 9999
-    {
 
-        nuevaFecha.dia = fecha.dia;
-        nuevaFecha.mes = fecha.mes;
-        nuevaFecha.annio = fecha.annio + cantidadASumar;
+	if(tipo==ANNIO)
+	{
+		nuevaFecha.dia=fecha.dia;
+		nuevaFecha.mes=fecha.mes;
+		nuevaFecha.annio=fecha.annio+cantidadASumar;
 
-    }
+	}
 
-
-    else if(tipo==MES)
-    {
-
-        nuevaFecha.dia = fecha.dia;
-        nuevaFecha.mes = fecha.mes + cantidadASumar;
-
-
-
-
-
-        if(nuevaFecha.mes > 12)
-        {
-            //ajustar el mes
-            //ajustar el año
-            while(12);
-        }
-
-
-        nuevaFecha.annio = fecha.annio + cantidadASumar;
-    }
-
-    return nuevaFecha;
+	return nuevaFecha;
 }
 
 
-
-void imprimeFecha(FECHAS fecha)
+FECHAS restaFecha(FECHAS fecha,int tipo,int cantidadARestar)
 {
-    printf("\t NUEVA FECHA: %d/%d/%d",fecha.dia,fecha.mes,fecha.annio);
+    FECHAS nuevaFecha;
+
+
+	if(tipo==ANNIO)
+	{
+		nuevaFecha.dia=fecha.dia;
+		nuevaFecha.mes=fecha.mes;
+		nuevaFecha.annio=fecha.annio-cantidadARestar;
+
+	}
+
+	return nuevaFecha;
 }
 
 
 
 
-int MenuOperaciones()
+
+int imprimeFecha(FECHAS fecha)
 {
-    int respuesta;
-    int opcion=-1;
-
-
-    printf("\n1.SUMA \n");
-    printf("2.RESTA \n");
-
-    printf("\tQue opcion deseas realizar?: \n");
-    scanf("%d",&respuesta);
-
-    switch(respuesta){
-    case 1:
-            printf("\nELIGISTE SUMA:\n");
-            opcion=1;
-
-            MenuSumas();
-            break;
-
-    case 2:
-            printf("\nELIGISTE RESTA: \n");
-            opcion=1;
-            MenuRestas();
-            break;
-    default:
-            printf(" \nNo eligiste ninguna opcion  \n");
-            opcion=-1;
-
-}
-return opcion;
+    printf("\t FECHA actual: %d/%d/%d \n",fecha.dia,fecha.mes,fecha.annio);
 }
 
 
 
-
-int MenuSumas()
+int imprimeFecha2(FECHAS NUEVA)
 {
-    int opcion=-1;
-    int respuesta;
-    int cantidadAsumar;
+    printf("\t NUEVA FECHA: %d/%d/%d",NUEVA.dia,NUEVA.mes,NUEVA.annio);
+}
+
+
+
+
+
+void MenuSumas(int *ASumar,int *tipo)
+{
+    int dato;
+
+
     printf("Que deseas sumar?: \n\n");
     printf("1.DIAS \n");
     printf("2.MESES \n");
     printf("3.ANNIOS \n \n");
-    scanf("%d",&respuesta);
+    scanf("%d",&dato);
 
-    switch(respuesta)
+    if(dato==1)
     {
 
 
-    case 1:
             printf("Cuantos dias deseas sumar: \n");
-            scanf("%d",&cantidadAsumar);
+            scanf("%d",&ASumar);
+    *tipo=DIA;
+    }
 
-            break;
 
-    case 2:
+
+    else if(dato==2)
+    {
             printf("Cuntos meses deseas sumar: \n");
-            scanf("%d",&cantidadAsumar);
-
-            break;
-
-    case 3:
-            printf("Cuantos annios deseas sumar: \n");
-            scanf("%d",&cantidadAsumar);
-
-            break;
-
-    default:
-            printf("No elegiste ninguna opcion\n");
+            scanf("%d",&ASumar);
+        *tipo=MES;
 
     }
+
+     else if(dato==3)
+    {
+            printf("Cuantos annios deseas sumar: \n");
+            scanf("%d",&ASumar);
+    *tipo=ANNIO;
+    }
+
+     else
+        printf("No elegiste ninguna opcion");
+
+    printf("\n%d a sumar\n",ASumar);
+
+    *ASumar;
+    *tipo;
+
 
 }
 
 
 
-int MenuRestas()
+
+
+
+void MenuRestas(int dato,int *ARestar,int *tipo)
+
 {
     int opcion=-1;
-    int respuesta;
-    int cantidadArestar;
+
     printf("Que deseas restar?: \n\n");
     printf("1.DIAS \n");
     printf("2.MESES \n");
     printf("3.ANNIOS \n  \n");
-    scanf("%d",&respuesta);
+    scanf("%d",&dato);
 
-    switch(respuesta)
+
+
+    if(dato==1)
     {
 
-
-    case 1:
             printf("Cuantos dias deseas restar: \n");
-            scanf("%d",&cantidadArestar);
+            scanf("%d",&ARestar);
+             *tipo=DIA;
+     }
 
-            break;
-
-    case 2:
+    else if(dato==2)
+    {
             printf("Cuntos meses deseas restar: \n");
-              scanf("%d",&cantidadArestar);
+              scanf("%d",&ARestar);
+               *tipo=MES;
+     }
 
-            break;
 
-    case 3:
+
+    else if(dato==3)
+    {
+
             printf("Cuantos annios deseas restar: \n");
-              scanf("%d",&cantidadArestar);
+              scanf("%d",&ARestar);
 
-            break;
-
-    default:
-            printf("No elegiste ninguna opcion\n");
-
+             *tipo=ANNIO;
     }
+    else
+        printf("no elegiste ninguna");
+      printf("%d a restar\n",ARestar);
+
+      *tipo;
+      *ARestar;
 
 }
