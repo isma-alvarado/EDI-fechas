@@ -185,8 +185,8 @@ int CapturaFecha(FECHAS *fecha)
 FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 {
      FECHAS nuevaFecha;
-     int meses,annios,annios2;
-     int mesNuevo,dias,dias2,dias3;
+     int meses,meses2,annios,annios2;
+     int mesNuevo,dias,dias2,dias3,dias4;
 
 
     if (tipo==ANNIO)
@@ -231,27 +231,41 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
         if(nuevaFecha.dia>31)
         {
         dias=fecha.dia+cantidadASumar; //15 + 20 = 40 dias
-		meses=dias/31;                 //40 dias/31 =  1.29  meses
-		dias2=meses*31;                 //1 * 31= 31 dias
+		meses2=dias/31;                 //40 dias/31 =  1.29  meses
+
+		dias2=meses2*31;                 //1 * 31= 31 dias
 		dias3=dias-dias2;              // 40-31= 9 dias
 
 
-		mesNuevo= meses-annios2;
+        nuevaFecha.dia=dias3;
+		nuevaFecha.mes=fecha.mes+meses2;
 
-		nuevaFecha.dia=dias3;
-		nuevaFecha.mes=fecha.mes+meses;
-		nuevaFecha.annio=fecha.annio;
 
-          if(nuevaFecha.mes>12)
+		  else if(nuevaFecha.dia>365)
         {
-        meses=fecha.mes+cantidadASumar;
+        dias=fecha.dia+cantidadASumar; //15 + 385 = 400 dias
+		meses2=dias/31;                 //400 dias/31 =  12.9  meses
+
+		dias2=meses2*31;                 //13 * 31= 403 dias
+
+		dias3=dias-dias2;              // 40-31= 9 dias
+
+
+        nuevaFecha.dia=dias3;
+		nuevaFecha.mes=fecha.mes+meses2;
+
+
+
+
+        if(nuevaFecha.mes>12)
+        {
+        meses=fecha.mes+meses2;
 		annios=meses/12;
 		annios2=annios*12;
 		mesNuevo= meses-annios2;
 		nuevaFecha.mes=mesNuevo;
 		nuevaFecha.annio=fecha.annio+annios;
-	}
-
+        }
 
         }
 
