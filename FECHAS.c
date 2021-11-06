@@ -186,6 +186,7 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 {
      FECHAS nuevaFecha;
      int meses,annios,annios2;
+     int mesNuevo;
 
 
     if (tipo==ANNIO)
@@ -203,59 +204,32 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 
         if(nuevaFecha.mes>12)
         {
-          meses=fecha.mes+cantidadAsumar;
-          annios=meses/12;    //son los meses totales dividos en lo que vale un año
-          annios2=annios
-
-
-
-
-
-        }
-
-
+        meses=cantidadASumar+fecha.mes;
+		annios=meses/12;           //annios quedara en enteros, ejemplo si son 41 meses lo dividira ere 12 y es igual a 3.41 pero en entero sera 3
+		annios2=annios*12;          //ejemplo:   si son 41 meses,mutiplicara el 3 anterior por 12 y resultara 36 ,y el resto serian los meses a sumar
+		mesNuevo= meses-annios2;
+		nuevaFecha.mes=mesNuevo;
+		nuevaFecha.annio=fecha.annio+annios;
+	}
+	else
+	{
+		nuevaFecha.annio=fecha.annio;
+	}
 
     }
 
      if (tipo==DIA)
     {
+
+        if()
+
         printf("Elegiste mes:");
-        nuevaFecha.dia=fecha.dia+;
+        nuevaFecha.dia=fecha.dia+cantidadASumar;
         nuevaFecha.mes=fecha.mes;
         nuevaFecha.annio=fecha.annio;
     }
 
-    /*
-    else if(tipo==MES)
-    {
-        nuevaFecha.dia=fecha.dia;
-        nuevaFecha.mes=fecha.mes +cantidadASumar;
-        while(nuevaFecha.mes>12)
-        {
-            cantidadASumar=cantidadASumar-12;
-            nuevaFecha.annio=fecha.annio+1;
 
-        }
-        nuevaFecha.annio=fecha.annio;
-
-    }
-    else if (tipo==DIA)
-    {
-        nuevaFecha.dia=fecha.dia+cantidadASumar;
-        while(nuevaFecha.dia>30)
-        {
-            cantidadASumar=cantidadASumar-30;
-            nuevaFecha.mes=fecha.mes+1;
-            while(nuevaFecha.mes>12)
-            {
-                nuevaFecha.mes=fecha.mes-12;
-                nuevaFecha.annio=fecha.annio+1;
-            }
-
-        }
-        nuevaFecha.annio=fecha.annio;
-
-    }*/
     return nuevaFecha;
 }
 
