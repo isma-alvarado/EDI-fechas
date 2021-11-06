@@ -34,7 +34,7 @@ int compararFechas(FECHAS fecha1,FECHAS fecha2);
 int imprimeFecha(FECHAS fecha);
 int imprimeFecha2(FECHAS fechaNUEVA);
 
-void MenuSumas(int *ASumar,int *tipo);
+int MenuSumas(int ASumar,int *tipo);
 void MenuRestas(int dato,int *ARestar,int *tipo);
 
 
@@ -65,9 +65,10 @@ if(fechaValida!=-1)
     case 1:
             printf("\nELIGISTE SUMA:\n");
 
-            MenuSumas(&suma,&tipo);
 
-             NuevaFecha=sumaFecha(fecha,tipo,suma);
+            suma= MenuSumas(suma,&tipo);
+
+            NuevaFecha=sumaFecha(fecha,tipo,suma);
 
 
 
@@ -172,20 +173,90 @@ int CapturaFecha(FECHAS *fecha)
 
 
 
+
+
+
+
+
+
+
+
+
 FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 {
-    FECHAS nuevaFecha;
+     FECHAS nuevaFecha;
+     int meses,annios,annios2;
 
 
-	if(tipo==ANNIO)
-	{
-		nuevaFecha.dia=fecha.dia;
-		nuevaFecha.mes=fecha.mes;
-		nuevaFecha.annio=fecha.annio+cantidadASumar;
+    if (tipo==ANNIO)
+    {
+        printf("Elegiste annios \n:");
+        nuevaFecha.dia=fecha.dia;
+        nuevaFecha.mes=fecha.mes;
+        nuevaFecha.annio=fecha.annio+cantidadASumar;
+    }
+   else if (tipo==MES)
+    {
+        printf("Elegiste mes \n:");
+        nuevaFecha.dia=fecha.dia;
+        nuevaFecha.mes=fecha.mes+cantidadASumar;
 
-	}
+        if(nuevaFecha.mes>12)
+        {
+          meses=fecha.mes+cantidadAsumar;
+          annios=meses/12;    //son los meses totales dividos en lo que vale un año
+          annios2=annios
 
-	return nuevaFecha;
+
+
+
+
+        }
+
+
+
+    }
+
+     if (tipo==DIA)
+    {
+        printf("Elegiste mes:");
+        nuevaFecha.dia=fecha.dia+;
+        nuevaFecha.mes=fecha.mes;
+        nuevaFecha.annio=fecha.annio;
+    }
+
+    /*
+    else if(tipo==MES)
+    {
+        nuevaFecha.dia=fecha.dia;
+        nuevaFecha.mes=fecha.mes +cantidadASumar;
+        while(nuevaFecha.mes>12)
+        {
+            cantidadASumar=cantidadASumar-12;
+            nuevaFecha.annio=fecha.annio+1;
+
+        }
+        nuevaFecha.annio=fecha.annio;
+
+    }
+    else if (tipo==DIA)
+    {
+        nuevaFecha.dia=fecha.dia+cantidadASumar;
+        while(nuevaFecha.dia>30)
+        {
+            cantidadASumar=cantidadASumar-30;
+            nuevaFecha.mes=fecha.mes+1;
+            while(nuevaFecha.mes>12)
+            {
+                nuevaFecha.mes=fecha.mes-12;
+                nuevaFecha.annio=fecha.annio+1;
+            }
+
+        }
+        nuevaFecha.annio=fecha.annio;
+
+    }*/
+    return nuevaFecha;
 }
 
 
@@ -225,7 +296,7 @@ int imprimeFecha2(FECHAS NUEVA)
 
 
 
-void MenuSumas(int *ASumar,int *tipo)
+int MenuSumas(int ASumar,int *tipo)
 {
     int dato;
 
@@ -267,10 +338,10 @@ void MenuSumas(int *ASumar,int *tipo)
 
     printf("\n%d a sumar\n",ASumar);
 
-    *ASumar;
+    //*ASumar;
     *tipo;
 
-
+return ASumar;
 }
 
 
