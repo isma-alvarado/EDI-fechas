@@ -14,6 +14,7 @@
 #define DIA 1
 #define MES 2
 #define ANNIO 3
+#define D
 
 struct ESTRUCTURA_FECHA
 {
@@ -30,13 +31,13 @@ typedef struct ESTRUCTURA_FECHA FECHAS;
 int CapturaFecha(FECHAS *fecha);
 FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar);
 FECHAS restaFecha(FECHAS fecha,int tipo,int cantidadARestar);
-int compararFechas(FECHAS fecha1,FECHAS fecha2);
+int comparaFechas(FECHAS fecha, FECHAS nuevaFecha);
 int imprimeFecha(FECHAS fecha);
 int imprimeFecha2(FECHAS fechaNUEVA);
 
 int MenuSumas(int ASumar,int *tipo);
-void MenuRestas(int dato,int *ARestar,int *tipo);
 
+int MenuRestas(int ARestar,int *tipo);
 
 
 int main()
@@ -46,7 +47,7 @@ FECHAS NuevaFecha;
 
 int fechaValida;
 int suma,resta,tipo,dato;
-int respuesta;
+int respuesta,compara;
 
 
 fechaValida=CapturaFecha(&fecha);
@@ -78,7 +79,7 @@ if(fechaValida!=-1)
     case 2:
             printf("\nELIGISTE RESTA: \n");
 
-            MenuRestas(&tipo,&resta,tipo);
+            resta = MenuRestas(resta,&tipo);
             NuevaFecha=restaFecha(fecha,tipo,resta);
             break;
     default:
@@ -94,6 +95,7 @@ if(fechaValida!=-1)
 imprimeFecha(fecha);
 printf("\n");
 imprimeFecha2(NuevaFecha);
+compara=comparaFechas(fecha,NuevaFecha);
 
 }
 
@@ -173,6 +175,76 @@ int CapturaFecha(FECHAS *fecha)
 
 
 
+int comparaFechas(FECHAS fecha, FECHAS nuevaFecha)
+{
+    int res=-1;
+
+if(fecha.annio>=nuevaFecha.annio)
+{
+
+	printf("\n \nEl annio de la fecha inicial es mayor\n");
+
+	res=1;
+
+
+
+}
+	else
+    {
+        printf("\n \nEl annio de la nueva fecha es mayor\n");
+
+    }
+
+
+ if(fecha.annio==nuevaFecha.annio &&  fecha.mes>nuevaFecha.mes)
+{
+
+
+	printf("\nEl mes de la fecha inicial es mayor\n");
+
+	res=1;
+
+
+	}
+	else
+    {
+        printf("\nEl mes de la nueva fecha  es mayor\n");
+
+
+    }
+
+
+ if(fecha.annio==nuevaFecha.annio &&  fecha.mes==nuevaFecha.mes && fecha.dia==nuevaFecha.dia)
+{
+
+
+	printf("\nEl dia de la fecha inicial es mayor\n");
+
+	res=1;
+
+
+	}
+	else
+    {
+        printf("\n El dia de la nueva fecha  es mayor\n");
+
+    }
+
+
+
+return res;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -223,10 +295,13 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 
 
 
-        printf("Elegiste mes:");
+        printf("Elegiste dia:");
         nuevaFecha.dia=fecha.dia+cantidadASumar;
         nuevaFecha.mes=fecha.mes;
         nuevaFecha.annio=fecha.annio;
+
+
+        }
 
         if(nuevaFecha.dia>31)
         {
@@ -241,6 +316,8 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 		nuevaFecha.mes=fecha.mes+meses2;
 
 
+
+        }
 		  else if(nuevaFecha.dia>365)
         {
         dias=fecha.dia+cantidadASumar; //15 + 385 = 400 dias
@@ -257,7 +334,9 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 
 
 
-        if(nuevaFecha.mes>12)
+        }
+
+        else if(nuevaFecha.mes>12)
         {
         meses=fecha.mes+meses2;
 		annios=meses/12;
@@ -267,9 +346,9 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 		nuevaFecha.annio=fecha.annio+annios;
         }
 
-        }
 
-    }
+
+
 
     else
 	{
@@ -279,26 +358,120 @@ FECHAS sumaFecha(FECHAS fecha,int tipo,int cantidadASumar)
 
 
 
+
     return nuevaFecha;
 }
 
 
+
+
 FECHAS restaFecha(FECHAS fecha,int tipo,int cantidadARestar)
 {
-    FECHAS nuevaFecha;
+     FECHAS nuevaFecha;
+     int meses,meses2,annios,annios2;
+     int mesNuevo,dias,dias2,dias3,dias4;
 
 
-	if(tipo==ANNIO)
+    if (tipo==ANNIO)
+    {
+        printf("Elegiste annios \n:");
+        nuevaFecha.dia=fecha.dia;
+        nuevaFecha.mes=fecha.mes;
+        nuevaFecha.annio=fecha.annio-cantidadARestar;
+    }
+   else if (tipo==MES)
+    {
+        printf("Elegiste mes \n:");
+        nuevaFecha.dia=fecha.dia;
+        nuevaFecha.mes=fecha.mes+cantidadARestar;
+
+        if(nuevaFecha.mes>12)
+        {
+        meses=fecha.mes-cantidadARestar;
+		annios=meses/12;           //annios quedara en enteros, ejemplo si son 41 meses lo dividira ere 12 y es igual a 3.41 pero en entero sera 3
+		annios2=annios*12;          //ejemplo:   si son 41 meses,mutiplicara el 3 anterior por 12 y resultara 36 ,y el resto serian los meses a sumar
+		mesNuevo= meses-annios2;
+		nuevaFecha.mes=mesNuevo;
+		nuevaFecha.annio=fecha.annio-annios;
+	}
+	else
 	{
-		nuevaFecha.dia=fecha.dia;
-		nuevaFecha.mes=fecha.mes;
-		nuevaFecha.annio=fecha.annio-cantidadARestar;
-
+		nuevaFecha.annio=fecha.annio;
 	}
 
-	return nuevaFecha;
-}
+    }
 
+     if (tipo==DIA)
+    {
+
+
+
+        printf("Elegiste dia:");
+        nuevaFecha.dia=fecha.dia-cantidadARestar;
+        nuevaFecha.mes=fecha.mes;
+        nuevaFecha.annio=fecha.annio;
+
+
+        }
+
+        if(nuevaFecha.dia>31)
+        {
+        dias=fecha.dia-cantidadARestar; //15 + 20 = 40 dias
+		meses2=dias/31;                 //40 dias/31 =  1.29  meses
+
+		dias2=meses2*31;                 //1 * 31= 31 dias
+		dias3=dias-dias2;              // 40-31= 9 dias
+
+
+        nuevaFecha.dia=dias3;
+		nuevaFecha.mes=fecha.mes+meses2;
+
+
+
+        }
+		  else if(nuevaFecha.dia>365)
+        {
+        dias=fecha.dia-cantidadARestar; //15 + 385 = 400 dias
+		meses2=dias/31;                 //400 dias/31 =  12.9  meses
+
+		dias2=meses2*31;                 //13 * 31= 403 dias
+
+		dias3=dias-dias2;              // 40-31= 9 dias
+
+
+        nuevaFecha.dia=dias3;
+		nuevaFecha.mes=fecha.mes+meses2;
+
+
+
+
+        }
+
+        else if(nuevaFecha.mes>12)
+        {
+        meses=fecha.mes+meses2;
+		annios=meses/12;
+		annios2=annios*12;
+		mesNuevo= meses-annios2;
+		nuevaFecha.mes=mesNuevo;
+		nuevaFecha.annio=fecha.annio-annios;
+        }
+
+
+
+
+
+    else
+	{
+		nuevaFecha.dia=fecha.dia;
+	}
+
+
+
+
+
+    return nuevaFecha;
+}
 
 
 
@@ -372,49 +545,50 @@ return ASumar;
 
 
 
-void MenuRestas(int dato,int *ARestar,int *tipo)
-
+int MenuRestas(int ARestar,int *tipo)
 {
-    int opcion=-1;
+    int dato;
+
 
     printf("Que deseas restar?: \n\n");
     printf("1.DIAS \n");
     printf("2.MESES \n");
-    printf("3.ANNIOS \n  \n");
+    printf("3.ANNIOS \n \n");
     scanf("%d",&dato);
-
-
 
     if(dato==1)
     {
 
+
             printf("Cuantos dias deseas restar: \n");
             scanf("%d",&ARestar);
-             *tipo=DIA;
-     }
+    *tipo=DIA;
+    }
+
+
 
     else if(dato==2)
     {
             printf("Cuntos meses deseas restar: \n");
-              scanf("%d",&ARestar);
-               *tipo=MES;
-     }
+            scanf("%d",&ARestar);
+        *tipo=MES;
 
-
-
-    else if(dato==3)
-    {
-
-            printf("Cuantos annios deseas restar: \n");
-              scanf("%d",&ARestar);
-
-             *tipo=ANNIO;
     }
-    else
-        printf("no elegiste ninguna");
-      printf("%d a restar\n",ARestar);
 
-      *tipo;
-      *ARestar;
+     else if(dato==3)
+    {
+            printf("Cuantos annios deseas restar: \n");
+            scanf("%d",&ARestar);
+    *tipo=ANNIO;
+    }
 
+     else
+        printf("No elegiste ninguna opcion");
+
+    printf("\n%d a sumar\n",ARestar);
+
+    //*ASumar;
+    *tipo;
+
+return ARestar;
 }
